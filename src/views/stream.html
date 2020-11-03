@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <video src="" id="video" autoplay style="position: absolute;"></video>
+    <br>
+    <canvas id="canvas" style="border: 1px solid black;"></canvas>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+          var onFailSoHard = function(e) {
+    console.log('Reeeejected!', e);
+  };
+
+  // Not showing vendor prefixes.
+  navigator.getUserMedia({ video: true, audio: true }, function(localMediaStream) {
+    var video = document.querySelector('video');
+    video.srcObject = localMediaStream;
+
+    // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+    // See crbug.com/110938.
+    video.onloadedmetadata = function(e) {
+      setInterval(() => {
+          video.style.left = (video.getBoundingClientRect().width*(0-1))+'px';
+            document.getElementById('canvas').width = video.getBoundingClientRect().width;
+            document.getElementById('canvas').height = video.getBoundingClientRect().height;
+            document.getElementById('canvas').getContext('2d').drawImage(document.getElementById('video'), 0,0);
+            socket.emit('url', 
+            {
+              url: document.getElementById('canvas').toDataURL(),
+              width: video.getBoundingClientRect().width,
+              height: video.getBoundingClientRect().height
+            });
+        }, 100);
+    };
+  }, onFailSoHard);
+    </script>
+</body>
+</html>
