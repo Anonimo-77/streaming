@@ -1,7 +1,7 @@
 const { ESRCH } = require('constants');
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
+const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 io.sockets.on('connection', (socket) => {
@@ -22,6 +22,6 @@ app.get('/view', (req,res) => {
     res.sendFile(path.join(__dirname, 'views', 'view.html'));
 });
 
-server.listen(process.env.PORT || 3000, process.env.HOST ||  'localhost', () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log('Server on port', process.env.PORT || 3000);
 });
