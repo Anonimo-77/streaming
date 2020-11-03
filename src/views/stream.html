@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <video src="" id="video" autoplay style="position: absolute;" muted></video>
+    <video src="" id="video" autoplay style="position: absolute;"></video>
     <br>
     <canvas id="canvas" style="border: 1px solid black;"></canvas>
     <script src="/socket.io/socket.io.js"></script>
@@ -24,6 +24,7 @@
     // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
     // See crbug.com/110938.
     video.onloadedmetadata = function(e) {
+      video.volume = 0;
       setInterval(() => {
           video.style.left = (video.getBoundingClientRect().width*(0-1))+'px';
             document.getElementById('canvas').width = video.getBoundingClientRect().width;
