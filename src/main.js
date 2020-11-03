@@ -13,7 +13,7 @@ io.sockets.on('connection', (socket) => {
 
 const path = require('path');
 
-
+app.use(express.static(path.join(__dirname, 'views')));
 
 app.get('/stream', (req,res) => {
     res.sendFile(path.join(__dirname, 'views', 'stream.html'));
